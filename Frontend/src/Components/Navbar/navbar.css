@@ -1,0 +1,223 @@
+
+:root {
+    --primary-beige: #E3DCD1;
+    --secondary-brown: #4A3C31;
+    --secondary-brown-dark: #2C1F17;
+    --text-primary: #2C1F17;
+    --text-white: #FFFFFF;
+    --shadow-light: rgba(74, 60, 49, 0.1);
+    --shadow-medium: rgba(74, 60, 49, 0.15);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 5%;
+    background-color: var(--text-white);
+    height: 85px;
+    z-index: 1000;
+    box-shadow: 0 2px 15px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.logo {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    margin-right: 0;
+    width: auto;
+}
+
+.nav-link {
+    position: relative;
+    width: auto;
+    height: auto;
+    background: transparent;
+    padding: 0;
+}
+
+.nav-link a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.8rem 1.5rem;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    position: relative;
+}
+
+.nav-link a::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-brown);
+    transition: width 0.3s ease;
+}
+
+.nav-link a:hover::before {
+    width: 80%;
+}
+
+.nav-link a:hover {
+    color: var(--secondary-brown);
+}
+
+.nav-link:last-child a {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    padding: 0.7rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 2px solid var(--secondary-brown);
+    transition: all 0.3s ease;
+}
+
+.nav-link:last-child a::before {
+    display: none;
+}
+
+.nav-link:last-child a:hover {
+    background-color: var(--secondary-brown-dark);
+    border-color: var(--secondary-brown-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-medium);
+    color: var(--text-white);
+}
+
+.menu-icon {
+    display: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: var(--secondary-brown);
+    transition: all 0.3s ease;
+}
+
+.menu-icon:hover {
+    color: var(--secondary-brown-dark);
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem 5%;
+        height: 75px;
+    }
+
+    .logo {
+        height: 45px;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 75px;
+        right: -100%;
+        width: 280px;
+        height: calc(100vh - 75px);
+        background-color: var(--text-white);
+        flex-direction: column;
+        padding: 2rem 0;
+        gap: 0;
+        box-shadow: -5px 0 20px var(--shadow-medium);
+        transition: right 0.4s ease-in-out;
+        overflow-y: auto;
+    }
+
+    .nav-links.nav-active {
+        right: 0;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 0;
+        border-bottom: 1px solid rgba(74, 60, 49, 0.1);
+    }
+
+    .nav-link a {
+        display: block;
+        width: 100%;
+        padding: 1.5rem 2rem;
+        font-size: 1.15rem;
+        border-radius: 0;
+    }
+
+    .nav-link a::before {
+        display: none;
+    }
+
+    .nav-link a:hover {
+        background-color: rgba(227, 220, 209, 0.3);
+        color: var(--secondary-brown);
+    }
+
+    .nav-link:last-child {
+        border-bottom: none;
+        margin-top: 1rem;
+        padding: 0 2rem;
+    }
+
+    .nav-link:last-child a {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 1rem 4%;
+    }
+
+    .nav-links {
+        width: 100%;
+        right: -100%;
+    }
+
+    .nav-links.nav-active {
+        right: 0;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.navbar {
+    animation: slideDown 0.5s ease-out;
+}

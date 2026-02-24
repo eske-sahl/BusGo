@@ -1,0 +1,490 @@
+
+:root {
+    --primary-beige: #E3DCD1;
+    --primary-beige-light: #F0EBE3;
+    --primary-beige-dark: #D4C9BA;
+    --secondary-brown: #4A3C31;
+    --secondary-brown-light: #6B5D52;
+    --secondary-brown-dark: #2C1F17;
+    --accent-cream: #FAF6F0;
+    --accent-tan: #C8B8A8;
+    --accent-rust: #A67B5B;
+    --text-primary: #2C1F17;
+    --text-secondary: #4A3C31;
+    --text-light: #6B5D52;
+    --text-white: #FFFFFF;
+    --bg-primary: #FFFFFF;
+    --shadow-light: rgba(74, 60, 49, 0.08);
+    --shadow-medium: rgba(74, 60, 49, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+.home-container {
+    margin-top: 80px;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-beige) 0%, var(--primary-beige-light) 50%, var(--accent-cream) 100%);
+    padding: 6rem 5% 8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(227, 220, 209, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.hero-section::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(166, 123, 91, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.hero-content {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hero-badge {
+    display: inline-block;
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    color: var(--secondary-brown-dark);
+    font-weight: 700;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-section p {
+    font-size: 1.4rem;
+    margin-bottom: 3rem;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.btn-primary {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.btn-primary::after {
+    content: "→";
+    font-size: 1.4rem;
+    transition: transform 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px var(--shadow-medium);
+    background-color: var(--secondary-brown-dark);
+}
+
+.btn-primary:hover::after {
+    transform: translateX(5px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--secondary-brown);
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    border: 2px solid var(--secondary-brown);
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.stats-section {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    padding: 3rem 5%;
+    margin-top: -3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    text-align: center;
+}
+
+.stat-item {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--primary-beige);
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.features-section {
+    padding: 6rem 5%;
+    background-color: var(--accent-cream);
+}
+
+.section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.section-badge {
+    display: inline-block;
+    background-color: var(--primary-beige);
+    color: var(--secondary-brown);
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.section-header h2 {
+    font-size: 2.8rem;
+    color: var(--secondary-brown);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.section-header p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: var(--bg-primary);
+    padding: 2.5rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 20px var(--shadow-light);
+    transition: all 0.4s;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-rust), var(--secondary-brown));
+    transform: scaleX(0);
+    transition: transform 0.4s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px var(--shadow-medium);
+    border-color: var(--primary-beige);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
+}
+
+.feature-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    transition: transform 0.4s;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.feature-card h3 {
+    font-size: 1.6rem;
+    color: var(--secondary-brown);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.feature-card p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.how-it-works {
+    padding: 6rem 5%;
+    background-color: var(--bg-primary);
+}
+
+.steps-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.step-card {
+    text-align: center;
+    position: relative;
+}
+
+.step-number {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
+    color: var(--text-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 5px 20px var(--shadow-light);
+}
+
+.step-card h3 {
+    font-size: 1.5rem;
+    color: var(--secondary-brown);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.step-card p {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.cta-section {
+    padding: 5rem 5%;
+    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
+    color: var(--text-white);
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.cta-section p {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.95;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-cta-primary {
+    background-color: var(--text-white);
+    color: var(--secondary-brown);
+    padding: 1.2rem 3rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-brown-dark);
+    color: var(--text-white);
+    padding: 3rem 5%;
+    text-align: center;
+}
+
+footer p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+        right: -100%;
+        top: 70px;
+        flex-direction: column;
+        background-color: var(--bg-primary);
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        box-shadow: 0 10px 27px var(--shadow-light);
+        padding: 2rem 0;
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .hero-section {
+        padding: 4rem 5% 6rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .stats-container {
+        gap: 2rem;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    .cta-section h2 {
+        font-size: 2rem;
+    }
+}

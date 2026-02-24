@@ -1,0 +1,816 @@
+/* ==========================================
+   COLOR THEME
+   ========================================== */
+:root {
+    --primary-beige: #E3DCD1;
+    --primary-beige-light: #F0EBE3;
+    --secondary-brown: #4A3C31;
+    --secondary-brown-dark: #2C1F17;
+    --accent-cream: #FAF6F0;
+    --accent-rust: #A67B5B;
+    --text-primary: #2C1F17;
+    --text-light: #6B5D52;
+    --text-white: #FFFFFF;
+    --bg-primary: #FFFFFF;
+    --shadow-light: rgba(74, 60, 49, 0.08);
+    --shadow-medium: rgba(74, 60, 49, 0.15);
+    --success-green: #4caf50;
+    --warning-orange: #ff9800;
+    --error-red: #f44336;
+}
+
+/* ==========================================
+   DASHBOARD WRAPPER
+   ========================================== */
+.dashboard-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--accent-cream);
+}
+
+/* ==========================================
+   HEADER
+   ========================================== */
+.dashboard-header {
+    background-color: var(--bg-primary);
+    box-shadow: 0 2px 15px var(--shadow-light);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    gap: 2rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+}
+
+.app-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--secondary-brown);
+}
+
+/* Navigation */
+.header-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+}
+
+.header-nav button {
+    background: transparent;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.header-nav button:hover {
+    background-color: var(--primary-beige-light);
+    color: var(--secondary-brown);
+}
+
+.header-nav button.active {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+}
+
+/* User Section */
+.header-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--accent-cream);
+    border-radius: 10px;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.logout-btn {
+    background-color: var(--accent-rust);
+    color: var(--text-white);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: var(--secondary-brown);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-medium);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--secondary-brown);
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+/* ==========================================
+   MAIN CONTENT
+   ========================================== */
+.dashboard-content {
+    flex: 1;
+    padding: 2rem 5%;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.section-container {
+    background-color: var(--bg-primary);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 5px 20px var(--shadow-light);
+}
+
+.section-container h1 {
+    color: var(--secondary-brown);
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.section-container h2 {
+    color: var(--secondary-brown);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+/* ==========================================
+   DASHBOARD HOME
+   ========================================== */
+.welcome-section {
+    text-align: center;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.welcome-section h1 {
+    font-size: 2.5rem;
+    color: var(--secondary-brown-dark);
+    margin-bottom: 1rem;
+}
+
+.welcome-section p {
+    font-size: 1.2rem;
+    color: var(--text-light);
+}
+
+/* Quick Stats */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--primary-beige-light) 0%, var(--primary-beige) 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--shadow-medium);
+}
+
+.stat-icon {
+    font-size: 3rem;
+}
+
+.stat-info h3 {
+    font-size: 2rem;
+    color: var(--secondary-brown);
+    margin: 0;
+}
+
+.stat-info p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Quick Actions */
+.quick-actions {
+    margin-top: 2rem;
+}
+
+.action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--secondary-brown-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--shadow-medium);
+}
+
+/* ==========================================
+   BUS SEARCH FORM
+   ========================================== */
+.search-form {
+    background-color: var(--accent-cream);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.9rem 1.2rem;
+    border: 2px solid var(--primary-beige);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--bg-primary);
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-rust);
+    box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.1);
+}
+
+.search-btn {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.search-btn:hover {
+    background-color: var(--secondary-brown-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-medium);
+}
+
+/* Search Results */
+.search-results {
+    margin-top: 2rem;
+}
+
+.result-card {
+    background-color: var(--accent-cream);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.result-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px var(--shadow-light);
+}
+
+.result-info h3 {
+    color: var(--secondary-brown);
+    margin-bottom: 0.5rem;
+}
+
+.result-info p {
+    color: var(--text-light);
+    margin: 0.3rem 0;
+}
+
+.availability {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.book-btn {
+    background-color: var(--accent-rust);
+    color: var(--text-white);
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+    background-color: var(--secondary-brown);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   ROUTE INFO
+   ========================================== */
+.route-info {
+    background-color: var(--accent-cream);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.route-details {
+    margin-top: 1rem;
+}
+
+.route-details p {
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+}
+
+.route-stops {
+    margin-top: 1.5rem;
+}
+
+.stop-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem;
+    background-color: var(--bg-primary);
+    border-radius: 10px;
+    margin: 0.5rem 0;
+}
+
+.stop-number {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.stop-name {
+    flex: 1;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.stop-arrow {
+    color: var(--accent-rust);
+    font-size: 1.5rem;
+}
+
+/* ==========================================
+   BUSES GRID
+   ========================================== */
+.buses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.bus-card {
+    background-color: var(--accent-cream);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px var(--shadow-light);
+}
+
+.bus-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px var(--shadow-medium);
+}
+
+.bus-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.bus-card h3 {
+    color: var(--secondary-brown);
+    margin-bottom: 0.5rem;
+}
+
+.bus-number {
+    color: var(--text-light);
+    font-weight: 600;
+    margin: 0.3rem 0;
+}
+
+.bus-type {
+    color: var(--accent-rust);
+    font-weight: 600;
+    margin: 0.3rem 0;
+}
+
+.bus-route {
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+}
+
+.bus-timing {
+    color: var(--text-light);
+    margin: 0.5rem 0;
+}
+
+.bus-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+}
+
+.view-btn,
+.track-btn {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-btn {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+}
+
+.view-btn:hover {
+    background-color: var(--secondary-brown-dark);
+}
+
+.track-btn {
+    background-color: var(--accent-rust);
+    color: var(--text-white);
+}
+
+.track-btn:hover {
+    background-color: var(--secondary-brown);
+}
+
+/* ==========================================
+   BOOKINGS
+   ========================================== */
+.bookings-list {
+    margin-top: 1.5rem;
+}
+
+.booking-card {
+    background-color: var(--accent-cream);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.booking-card:hover {
+    box-shadow: 0 5px 15px var(--shadow-light);
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.booking-header h3 {
+    color: var(--secondary-brown);
+    margin: 0;
+}
+
+.status-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-badge.confirmed {
+    background-color: var(--success-green);
+    color: var(--text-white);
+}
+
+.booking-details p {
+    color: var(--text-primary);
+    margin: 0.3rem 0;
+}
+
+.booking-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.cancel-btn {
+    background-color: var(--error-red);
+    color: var(--text-white);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   PROFILE
+   ========================================== */
+.profile-card {
+    background-color: var(--accent-cream);
+    padding: 3rem;
+    border-radius: 15px;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-info h2 {
+    color: var(--secondary-brown);
+    margin-bottom: 1rem;
+}
+
+.profile-info p {
+    color: var(--text-light);
+    margin: 0.5rem 0;
+    font-size: 1.05rem;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.edit-btn,
+.password-btn {
+    padding: 0.9rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-btn {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+}
+
+.edit-btn:hover {
+    background-color: var(--secondary-brown-dark);
+    transform: translateY(-2px);
+}
+
+.password-btn {
+    background-color: var(--accent-rust);
+    color: var(--text-white);
+}
+
+.password-btn:hover {
+    background-color: var(--secondary-brown);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+.dashboard-footer {
+    background-color: var(--secondary-brown-dark);
+    color: var(--text-white);
+    padding: 2rem 5%;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.footer-links a {
+    color: var(--text-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-beige);
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+   ========================================== */
+@media (max-width: 1024px) {
+    .header-nav button {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.9rem;
+    }
+
+    .app-name {
+        font-size: 1.3rem;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+   ========================================== */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-wrap: wrap;
+        padding: 1rem 4%;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .header-nav {
+        position: fixed;
+        right: -100%;
+        top: 82px;
+        flex-direction: column;
+        background-color: var(--bg-primary);
+        width: 280px;
+        height: calc(100vh - 82px);
+        box-shadow: -5px 0 20px var(--shadow-medium);
+        transition: right 0.4s ease;
+        padding: 2rem 0;
+        justify-content: flex-start;
+    }
+
+    .header-nav.mobile-active {
+        right: 0;
+    }
+
+    .header-nav button {
+        width: 100%;
+        text-align: left;
+        padding: 1rem 2rem;
+        border-radius: 0;
+    }
+
+    .header-user {
+        order: -1;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .dashboard-content {
+        padding: 1.5rem 4%;
+    }
+
+    .section-container {
+        padding: 1.5rem;
+    }
+
+    .section-container h1 {
+        font-size: 1.8rem;
+    }
+
+    .quick-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

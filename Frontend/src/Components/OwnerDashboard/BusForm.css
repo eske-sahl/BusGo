@@ -1,0 +1,496 @@
+/* ==========================================
+   COLOR THEME
+   ========================================== */
+:root {
+    --primary-beige: #E3DCD1;
+    --primary-beige-light: #F0EBE3;
+    --secondary-brown: #4A3C31;
+    --secondary-brown-dark: #2C1F17;
+    --accent-cream: #FAF6F0;
+    --accent-rust: #A67B5B;
+    --text-primary: #2C1F17;
+    --text-light: #6B5D52;
+    --text-white: #FFFFFF;
+    --bg-primary: #FFFFFF;
+    --shadow-light: rgba(74, 60, 49, 0.08);
+    --shadow-medium: rgba(74, 60, 49, 0.15);
+    --shadow-strong: rgba(74, 60, 49, 0.3);
+    --success-green: #4caf50;
+    --error-red: #f44336;
+}
+
+/* ==========================================
+   OVERLAY & MODAL
+   ========================================== */
+.bus-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(44, 31, 23, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 2rem;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.bus-form-modal {
+    background-color: var(--bg-primary);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px var(--shadow-strong);
+    animation: slideUp 0.4s ease-out;
+}
+
+/* ==========================================
+   FORM HEADER
+   ========================================== */
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
+    border-radius: 20px 20px 0 0;
+}
+
+.form-header h2 {
+    margin: 0;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.close-icon {
+    background: transparent;
+    border: none;
+    color: var(--text-white);
+    font-size: 1.8rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* ==========================================
+   FORM CONTENT
+   ========================================== */
+.form-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem;
+    background-color: var(--accent-cream);
+}
+
+/* Custom Scrollbar */
+.form-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.form-content::-webkit-scrollbar-track {
+    background: var(--primary-beige-light);
+    border-radius: 10px;
+}
+
+.form-content::-webkit-scrollbar-thumb {
+    background: var(--secondary-brown);
+    border-radius: 10px;
+}
+
+.form-content::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-brown-dark);
+}
+
+/* ==========================================
+   FORM SECTIONS
+   ========================================== */
+.form-section {
+    background-color: var(--bg-primary);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow-light);
+}
+
+.section-title {
+    color: var(--secondary-brown);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-header-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header-with-button .section-title {
+    margin: 0;
+}
+
+/* ==========================================
+   FORM GRID & INPUTS
+   ========================================== */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.9rem 1.2rem;
+    border: 2px solid var(--primary-beige);
+    border-radius: 10px;
+    font-size: 1rem;
+    background-color: var(--accent-cream);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-rust);
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 0 4px rgba(166, 123, 91, 0.1);
+}
+
+.form-group input::placeholder {
+    color: var(--text-light);
+}
+
+.form-group select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A3C31' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+/* ==========================================
+   STOPS SECTION
+   ========================================== */
+.add-stop-btn {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.add-stop-btn:hover {
+    background-color: var(--secondary-brown-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-medium);
+}
+
+.stops-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.no-stops {
+    background-color: var(--accent-cream);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px dashed var(--primary-beige);
+}
+
+.no-stops p {
+    color: var(--text-light);
+    margin: 0;
+}
+
+.stop-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: var(--accent-cream);
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid var(--primary-beige);
+    transition: all 0.3s ease;
+}
+
+.stop-item:hover {
+    border-color: var(--accent-rust);
+    box-shadow: 0 5px 15px var(--shadow-light);
+}
+
+.stop-number {
+    background-color: var(--secondary-brown);
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.stop-inputs {
+    display: flex;
+    gap: 1rem;
+    flex: 1;
+}
+
+.stop-inputs input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--primary-beige);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background-color: var(--bg-primary);
+    transition: all 0.3s ease;
+}
+
+.stop-inputs input:focus {
+    outline: none;
+    border-color: var(--accent-rust);
+    box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.1);
+}
+
+.remove-stop-btn {
+    background-color: var(--error-red);
+    color: var(--text-white);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.remove-stop-btn:hover {
+    background-color: #d32f2f;
+    transform: scale(1.1);
+}
+
+/* ==========================================
+   FORM FOOTER
+   ========================================== */
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2.5rem;
+    background-color: var(--primary-beige-light);
+    border-radius: 0 0 20px 20px;
+    border-top: 2px solid var(--primary-beige);
+}
+
+.footer-left,
+.footer-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-save,
+.btn-cancel,
+.btn-delete {
+    padding: 0.9rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.btn-save {
+    background-color: var(--success-green);
+    color: var(--text-white);
+}
+
+.btn-save:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+.btn-cancel {
+    background-color: var(--text-light);
+    color: var(--text-white);
+}
+
+.btn-cancel:hover {
+    background-color: var(--secondary-brown);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    background-color: var(--error-red);
+    color: var(--text-white);
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - TABLET
+   ========================================== */
+@media (max-width: 768px) {
+    .bus-form-overlay {
+        padding: 1rem;
+    }
+
+    .form-header,
+    .form-content,
+    .form-footer {
+        padding: 1.5rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stop-inputs {
+        flex-direction: column;
+    }
+
+    .form-footer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .btn-save,
+    .btn-cancel,
+    .btn-delete {
+        width: 100%;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE - MOBILE
+   ========================================== */
+@media (max-width: 480px) {
+    .bus-form-overlay {
+        padding: 0.5rem;
+    }
+
+    .bus-form-modal {
+        max-height: 95vh;
+        border-radius: 15px;
+    }
+
+    .form-header,
+    .form-content {
+        padding: 1.2rem;
+    }
+
+    .form-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .form-section {
+        padding: 1.5rem;
+    }
+
+    .stop-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .stop-number {
+        align-self: flex-start;
+    }
+
+    .remove-stop-btn {
+        align-self: flex-end;
+    }
+}
