@@ -8,6 +8,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const db = require("./db");
 const earningsRoutes = require("./routes/earnings");
+const usersRoute = require("./routes/users-route");
+const driverRequestsRoute = require("./routes/driver-requests");
+
+
+
 
 
 
@@ -24,6 +29,9 @@ app.use("/api/stops", stopRoutes);
 app.use("/api/bus", busRoutes);
 app.use("/api/routes", routeRoutes);
 app.use("/api/earnings", earningsRoutes);
+app.use("/api/driver-requests", driverRequestsRoute);
+app.use("/api/users", usersRoute);
+
 
 
 app.post('/register', async (req, res) => {

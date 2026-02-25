@@ -90,9 +90,9 @@ export const OwnerDashboard = () => {
             case 'buses':
                 return <MyBuses/>;;
             case 'drivers':
-                return <Driver/>;
+                return <Driver ownerId={user.id}/>;
             case 'earnings':
-                return <Earning/>;
+                return <Earning ownerId={user.id}/>;
             case 'profile':
                 return (
                     <Profile 
