@@ -1,0 +1,364 @@
+/* ── TOAST NOTIFICATIONS ─────────────────────────────────────── */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    z-index: 9999;
+    box-shadow: 0 4px 16px var(--shadow-medium);
+    animation: fadeInDown 0.3s ease;
+}
+
+.toast-success {
+    background: #eaf7ea;
+    color: #2e7d32;
+    border: 1px solid var(--success-green);
+}
+
+.toast-error {
+    background: #fdecea;
+    color: #b71c1c;
+    border: 1px solid var(--error-red);
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PROFILE CARD ────────────────────────────────────────────── */
+.profile-card {
+    background: var(--accent-cream);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 4px 20px var(--shadow-light);
+    max-width: 700px;
+    margin: 0 auto;
+    border: 1px solid var(--primary-beige);
+}
+
+.profile-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--primary-beige);
+}
+
+.avatar-img {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-rust);
+}
+
+.avatar-placeholder {
+    font-size: 52px;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--primary-beige-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--accent-rust);
+}
+
+.avatar-name {
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary-brown-dark);
+}
+
+.avatar-role {
+    color: var(--accent-rust);
+    text-transform: capitalize;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* ── PROFILE INFO ────────────────────────────────────────────── */
+.profile-info p {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--primary-beige);
+    font-size: 14px;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.profile-info p:last-child {
+    border-bottom: none;
+}
+
+.profile-info strong {
+    color: var(--text-light);
+    margin-right: 8px;
+    min-width: 130px;
+    display: inline-block;
+}
+
+/* ── PROFILE ACTION BUTTONS ──────────────────────────────────── */
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.edit-btn,
+.password-btn {
+    padding: 11px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    letter-spacing: 0.3px;
+}
+
+.edit-btn {
+    background: var(--secondary-brown);
+    color: var(--text-white);
+}
+
+.edit-btn:hover {
+    background: var(--secondary-brown-dark);
+    box-shadow: 0 4px 12px var(--shadow-medium);
+    transform: translateY(-1px);
+}
+
+.password-btn {
+    background: var(--accent-cream);
+    color: var(--secondary-brown);
+    border: 1.5px solid var(--secondary-brown);
+}
+
+.password-btn:hover {
+    background: var(--primary-beige-light);
+    box-shadow: 0 4px 12px var(--shadow-light);
+    transform: translateY(-1px);
+}
+
+/* ── MODAL ───────────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 31, 23, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-box {
+    background: var(--accent-cream);
+    border-radius: 16px;
+    padding: 30px 34px;
+    width: 90%;
+    max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(44, 31, 23, 0.3);
+    animation: slideUp 0.25s ease;
+    border: 1px solid var(--primary-beige);
+}
+
+.modal-box-sm {
+    max-width: 440px;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--primary-beige);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 19px;
+    color: var(--secondary-brown-dark);
+    font-weight: 700;
+}
+
+.modal-close {
+    background: var(--primary-beige-light);
+    border: 1px solid var(--primary-beige);
+    cursor: pointer;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: var(--primary-beige);
+    color: var(--secondary-brown-dark);
+}
+
+/* ── FORM ────────────────────────────────────────────────────── */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 500px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 13px;
+    border: 1.5px solid var(--primary-beige);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--accent-rust);
+    box-shadow: 0 0 0 3px rgba(166, 123, 91, 0.15);
+}
+
+.form-group input::placeholder {
+    color: var(--text-light);
+    opacity: 0.6;
+}
+
+/* ── PASSWORD FIELD ──────────────────────────────────────────── */
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper input {
+    padding-right: 44px;
+}
+
+.toggle-eye {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+
+.toggle-eye:hover {
+    color: var(--accent-rust);
+}
+
+.field-error {
+    font-size: 12px;
+    color: var(--error-red);
+    margin-top: 3px;
+}
+
+/* ── MODAL FOOTER BUTTONS ────────────────────────────────────── */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 6px;
+    padding-top: 16px;
+    border-top: 1px solid var(--primary-beige);
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border: 1.5px solid var(--primary-beige);
+    background: var(--bg-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-light);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+    background: var(--primary-beige-light);
+    border-color: var(--accent-rust);
+    color: var(--secondary-brown);
+}
+
+.btn-save {
+    padding: 10px 22px;
+    background: var(--secondary-brown);
+    color: var(--text-white);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+}
+
+.btn-save:hover {
+    background: var(--secondary-brown-dark);
+    box-shadow: 0 4px 14px var(--shadow-medium);
+    transform: translateY(-1px);
+}

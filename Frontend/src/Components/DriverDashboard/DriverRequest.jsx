@@ -6,15 +6,18 @@ const DriverRequests = ({ ownerId }) => {
     const [drivers, setDrivers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [buses, setBuses] = useState([]);
-    const [assigning, setAssigning] = useState({}); // { requestId: busId }
+    const [assigning, setAssigning] = useState({});
     const [message, setMessage] = useState('');
-    const [activeTab, setActiveTab] = useState('pending'); // pending | accepted
+    const [activeTab, setActiveTab] = useState('pending');
 
+    // ✅ FIX 1: Fetch pending requests filtered by ownerId
+    // Previously used /api/driver-requests/pending (no filter) — owner A saw ALL pending
+    // requests from every driver in the system, including requests meant for other owners.
     const fetchRequests = () => {
         setLoading(true);
-        axios.get('http://localhost:3002/api/driver-requests/pending')
+        axios.get(`http://localhost:3002/api/driver-requests/pending/${ownerId}`)
             .then(res => { setRequests(res.data || []); setLoading(false); })
-            .catch(() => setLoading(false));
+            .catch(() => { setRequests([]); setLoading(false); });
     };
 
     const fetchAcceptedDrivers = () => {
@@ -29,36 +32,31 @@ const DriverRequests = ({ ownerId }) => {
             .catch(() => setBuses([]));
     };
 
+    // ✅ FIX 2: Removed duplicate axios call — previously useEffect called
+    // axios.get('/pending') directly AND fetchRequests() also called it,
+    // resulting in two identical API calls on every mount.
     useEffect(() => {
-        axios.get('http://localhost:3002/api/driver-requests/pending')
-            .then(res => { setRequests(res.data || []); setLoading(false); })
-            .catch(() => setLoading(false));
-
-        axios.get(`http://localhost:3002/api/bus/owner/${ownerId}`)
-            .then(res => setBuses(res.data || []))
-            .catch(() => setBuses([]));
-
-        axios.get(`http://localhost:3002/api/driver-requests/accepted/${ownerId}`)
-            .then(res => setDrivers(res.data || []))
-            .catch(() => setDrivers([]));
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        fetchRequests();
+        fetchBuses();
+        fetchAcceptedDrivers();
     }, [ownerId]);
 
     const handleAccept = async (request, busId) => {
         if (!busId) { setMessage('❌ Please select a bus to assign.'); return; }
         setMessage('');
+        const selectedBus = buses.find(b => b.id === parseInt(busId));
         try {
-            // 1. Accept the request
             await axios.put(`http://localhost:3002/api/driver-requests/${request.id}/accept`, {
                 owner_id: ownerId,
                 bus_id: busId
             });
-            // 2. Assign driver name to the bus
             await axios.put(`http://localhost:3002/api/bus/${busId}`, {
-                name: buses.find(b => b.id === parseInt(busId))?.name,
-                number: buses.find(b => b.id === parseInt(busId))?.number,
-                capacity: buses.find(b => b.id === parseInt(busId))?.capacity,
+                name: selectedBus?.name,
+                number: selectedBus?.number,
+                capacity: selectedBus?.capacity,
                 driver: request.driver_name,
-                status: buses.find(b => b.id === parseInt(busId))?.status,
+                status: selectedBus?.status,
                 ownerId: ownerId
             });
             setMessage(`✅ ${request.driver_name} accepted and assigned to bus!`);
@@ -90,9 +88,11 @@ const DriverRequests = ({ ownerId }) => {
 
             {message && (
                 <div className={`form-message ${message.startsWith('✅') ? 'success' : message.startsWith('❌') ? 'error' : 'info'}`}
-                    style={{marginBottom:'1rem', padding:'0.8rem 1rem', borderRadius:'8px',
+                    style={{
+                        marginBottom: '1rem', padding: '0.8rem 1rem', borderRadius: '8px',
                         background: message.startsWith('✅') ? '#d1fae5' : message.startsWith('❌') ? '#fee2e2' : '#e0f2fe',
-                        color: message.startsWith('✅') ? '#065f46' : message.startsWith('❌') ? '#991b1b' : '#0369a1'}}>
+                        color: message.startsWith('✅') ? '#065f46' : message.startsWith('❌') ? '#991b1b' : '#0369a1'
+                    }}>
                     {message}
                 </div>
             )}
@@ -101,7 +101,10 @@ const DriverRequests = ({ ownerId }) => {
             <div className="driver-tabs">
                 <button className={`driver-tab ${activeTab === 'pending' ? 'active' : ''}`}
                     onClick={() => setActiveTab('pending')}>
-                    ⏳ Pending Requests {pendingRequests.length > 0 && <span className="tab-badge">{pendingRequests.length}</span>}
+                    ⏳ Pending Requests
+                    {pendingRequests.length > 0 && (
+                        <span className="tab-badge">{pendingRequests.length}</span>
+                    )}
                 </button>
                 <button className={`driver-tab ${activeTab === 'accepted' ? 'active' : ''}`}
                     onClick={() => setActiveTab('accepted')}>
@@ -113,8 +116,8 @@ const DriverRequests = ({ ownerId }) => {
             {activeTab === 'pending' && (
                 <>
                     {loading ? <p>Loading requests...</p> : pendingRequests.length === 0 ? (
-                        <div style={{textAlign:'center', padding:'3rem', color:'#6B5D52'}}>
-                            <div style={{fontSize:'3rem'}}>📭</div>
+                        <div style={{ textAlign: 'center', padding: '3rem', color: '#6B5D52' }}>
+                            <div style={{ fontSize: '3rem' }}>📭</div>
                             <h3>No Pending Requests</h3>
                             <p>No drivers have sent employment requests yet.</p>
                         </div>
@@ -172,7 +175,8 @@ const DriverRequests = ({ ownerId }) => {
                                             value={assigning[req.id] || ''}
                                             onChange={e => setAssigning(prev => ({ ...prev, [req.id]: e.target.value }))}>
                                             <option value="">-- Select Bus to Assign --</option>
-                                            {buses.filter(b => !b.driver || b.driver === '').map(bus => (
+                                            {/* ✅ Only show buses with no driver assigned */}
+                                            {buses.filter(b => !b.driver || b.driver.trim() === '').map(bus => (
                                                 <option key={bus.id} value={bus.id}>
                                                     {bus.name} ({bus.number})
                                                 </option>
@@ -198,8 +202,8 @@ const DriverRequests = ({ ownerId }) => {
             {activeTab === 'accepted' && (
                 <>
                     {drivers.length === 0 ? (
-                        <div style={{textAlign:'center', padding:'3rem', color:'#6B5D52'}}>
-                            <div style={{fontSize:'3rem'}}>👥</div>
+                        <div style={{ textAlign: 'center', padding: '3rem', color: '#6B5D52' }}>
+                            <div style={{ fontSize: '3rem' }}>👥</div>
                             <h3>No Drivers Yet</h3>
                             <p>Accept driver requests to assign them to your buses.</p>
                         </div>
@@ -222,7 +226,10 @@ const DriverRequests = ({ ownerId }) => {
                                             <td>{d.mobile}</td>
                                             <td>{d.license_number}</td>
                                             <td>{d.bus_name ? `${d.bus_name} (${d.bus_number})` : '—'}</td>
-                                            <td>{d.today_earnings ? `₹${parseFloat(d.today_earnings).toLocaleString()}` : '—'}</td>
+                                            <td>{d.today_earnings
+                                                ? `₹${parseFloat(d.today_earnings).toLocaleString()}`
+                                                : '—'}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>

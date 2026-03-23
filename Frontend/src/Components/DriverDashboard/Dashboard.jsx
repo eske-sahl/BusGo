@@ -27,7 +27,13 @@ export const DriverDashboard = () => {
         const u = JSON.parse(localStorage.getItem("user"));
         const today = new Date().toISOString().split('T')[0];
         axios.get(`http://localhost:3002/api/earnings/driver/${u.id}?date=${today}`)
-            .then(res => setTodayEarnings(res.data?.amount || 0))
+            .then(res => {
+                // ✅ FIX: endpoint returns an array, not a single object
+                // Previously: res.data?.amount  → always 0 because arrays don't have .amount
+                const data = Array.isArray(res.data) ? res.data : (res.data ? [res.data] : []);
+                const total = data.reduce((sum, e) => sum + parseFloat(e?.amount || 0), 0);
+                setTodayEarnings(total);
+            })
             .catch(() => setTodayEarnings(0));
     };
 
@@ -138,14 +144,15 @@ const DriverHome = ({ user, assignedBus, loadingBus, todayEarnings, setActiveSec
             <div className="stat-card">
                 <span className="stat-icon">🗺️</span>
                 <div className="stat-info">
-                    {assignedBus?.start_place
-                        ? <><h3>{assignedBus.start_place}</h3><p>→ {assignedBus.end_place}</p></>
+                    {assignedBus?.route_id
+                        ? <h3>{assignedBus.route_name || `${assignedBus.start_place} → ${assignedBus.end_place}`}</h3>
                         : <><h3>No Route</h3><p>Pending assignment</p></>}
                 </div>
             </div>
             <div className="stat-card">
                 <span className="stat-icon">💰</span>
                 <div className="stat-info">
+                    {/* ✅ Now correctly shows real fetched today's earnings */}
                     <h3>₹{(todayEarnings || 0).toLocaleString()}</h3>
                     <p>Today's Earnings</p>
                 </div>
@@ -170,25 +177,68 @@ const DriverHome = ({ user, assignedBus, loadingBus, todayEarnings, setActiveSec
 );
 
 /* ─── PROFILE ────────────────────────────────────────── */
-const DriverProfile = ({ user }) => (
-    <div className="section-container">
-        <h1>👤 My Profile</h1>
-        <div className="profile-card">
-            <div className="profile-avatar"><span>🧑‍✈️</span></div>
-            <div className="profile-info">
-                {[['Full Name', user.fullname], ['Phone', user.phone], ['Email', user.email],
-                  ['Place', user.place], ['Date of Birth', user.dob],
-                  ['Username', user.username], ['Gender', user.gender]
-                ].map(([label, val]) => (
-                    <p key={label}><strong>{label}:</strong> {val || '—'}</p>
-                ))}
-            </div>
-            <div className="profile-actions">
-                <button className="edit-btn">✏️ Edit Profile</button>
-                <button className="password-btn">🔒 Change Password</button>
+const DriverProfile = ({ user }) => {
+    const navigate = useNavigate(); // ✅ now valid
+
+    const handleDeleteAccount = async () => {
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete your account? This cannot be undone."
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+            await axios.delete(`http://localhost:3002/api/users/${user.id}`);
+
+            alert("Account deleted successfully");
+
+            localStorage.removeItem("user");
+            localStorage.removeItem("token"); // ✅ recommended
+            navigate("/Login");
+
+        } catch (err) {
+            console.error(err);
+            alert("Failed to delete account");
+        }
+    };
+
+    return (
+        <div className="section-container">
+            <h1>👤 My Profile</h1>
+
+            <div className="profile-card">
+                <div className="profile-avatar">
+                    <span>🧑‍✈️</span>
+                </div>
+
+                <div className="profile-info">
+                    {[
+                        ['Full Name', user.fullname],
+                        ['Phone', user.phone],
+                        ['Email', user.email],
+                        ['Place', user.place],
+                        ['Date of Birth', user.dob],
+                        ['Username', user.username],
+                        ['Gender', user.gender],
+                        ['License Number', user.license_number],
+                    ].map(([label, val]) => (
+                        <p key={label}>
+                            <strong>{label}:</strong> {val || '—'}
+                        </p>
+                    ))}
+                </div>
+
+                {/* ✅ DELETE BUTTON */}
+                <div className="profile-actions">
+                    <button 
+                        className="delete-btn"
+                        onClick={handleDeleteAccount}
+                    >
+                        🗑️ Delete Account
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
-);
-
+    );
+};
 export default DriverDashboard;

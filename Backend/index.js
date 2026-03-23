@@ -36,7 +36,7 @@ app.use("/api/users", usersRoute);
 
 app.post('/register', async (req, res) => {
     const {
-        Email, Username, Password, Phone, Role,
+        Email, Username, Password, Phone, Role, License_number,
         Designation, Place, DOB, Photo, Fullname, Gender
     } = req.body;
 
@@ -48,33 +48,47 @@ app.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(Password, 10);
 
         const SQL = `
-            INSERT INTO users 
-            (email, username, password, phone, role, designation, place, dob, photo, fullname, gender)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO users 
+        (Email, Username, Password, Phone, Role, Designation, Place, DOB, Gender, Fullname, Photo, license_number)        
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `;
+
         const values = [
-            Email, Username, hashedPassword, Phone || null,
-            Role, Designation || null, Place || null, DOB || null,
-            Photo || null, Fullname || null, Gender || null
+            Email,
+            Username,
+            hashedPassword,
+            Phone || null,
+            Role,
+            Designation || null,
+            Place || null,
+            DOB || null,
+            Gender || null,
+            Fullname || null,
+            Photo || null,
+            Role === 'driver' ? License_number : null
         ];
 
         db.query(SQL, values, (err, result) => {
             if (err) {
                 console.error("Register error:", err);
-                if (err.code === 'ER_DUP_ENTRY') {
-                    return res.status(409).json({ success: false, message: "Email or username already exists" });
-                }
-                return res.status(500).json({ success: false, message: "Database error" });
+                return res.status(500).json({
+                    success: false,
+                    message: err.message
+                });
             }
 
             res.status(201).json({
                 success: true,
-                message: "Registration successful! Please login."
+                message: "Registration successful!"
             });
         });
+
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ success: false, message: "Server error" });
+        console.error("Catch error:", err);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
     }
 });
 app.post('/login', (req, res) => {
@@ -131,7 +145,8 @@ app.post('/login', (req, res) => {
             dob: user.dob,
             designation: user.designation,
             photo: user.photo,
-            gender: user.gender
+            gender: user.gender,
+            license_number: user.license_number
         };
 
         // Create JWT

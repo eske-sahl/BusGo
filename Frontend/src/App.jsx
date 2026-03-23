@@ -18,7 +18,7 @@ function App() {
       <Routes>
         {/* PUBLIC PAGES (WITH NAVBAR) */}
         <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/About" element={<About />} />

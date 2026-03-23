@@ -6,7 +6,14 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
     const [currentStopIdx, setCurrentStopIdx] = useState(null);
     const [invites, setInvites] = useState([]);
     const [loadingInvites, setLoadingInvites] = useState(true);
-    const [responding, setResponding] = useState(null); // invite id being responded to
+    const [responding, setResponding] = useState(null);
+    // const [marking, setMarking] = useState(false);
+
+    // Stop editing state
+    const [showStopForm, setShowStopForm] = useState(false);
+    const [newStop, setNewStop] = useState({ stop_name: '', arrival_time: '', stop_order: '' });
+    const [savingStop, setSavingStop] = useState(false);
+    const [stopMsg, setStopMsg] = useState('');
 
     useEffect(() => {
         axios.get(`http://localhost:3002/api/driver-requests/invites/${user.id}`)
@@ -16,21 +23,66 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
 
     useEffect(() => {
         if (assignedBus?.route_id) {
-            axios.get(`http://localhost:3002/api/stops/route/${assignedBus.route_id}`)
-                .then(res => setStops(res.data || []))
-                .catch(() => setStops([]));
+            fetchStops();
+            fetchCurrentStop();
         }
     }, [assignedBus]);
 
+    const fetchStops = () => {
+        axios.get(`http://localhost:3002/api/stops/route/${assignedBus.route_id}`)
+            .then(res => setStops(res.data || []))
+            .catch(() => setStops([]));
+    };
+
+    const fetchCurrentStop = () => {
+        axios.get(`http://localhost:3002/api/bus/${assignedBus.id}/current-stop`)
+            .then(res => {
+                if (res.data?.current_stop_id) {
+                    const order = res.data.current_stop_order;
+                    setCurrentStopIdx(order != null ? order - 1 : null);
+                }
+            })
+            .catch(() => {});
+    };
+
+    // ── ADD STOP ─────────────────────────────────────────
+    const handleAddStop = async (e) => {
+        e.preventDefault();
+        if (!newStop.stop_name) { setStopMsg('❌ Stop name is required.'); return; }
+        setSavingStop(true); setStopMsg('');
+        try {
+            await axios.post('http://localhost:3002/api/stops/add', {
+                route_id: assignedBus.route_id,
+                stop_name: newStop.stop_name,
+                arrival_time: newStop.arrival_time,
+                stop_order: newStop.stop_order || stops.length + 1
+            });
+            setStopMsg('✅ Stop added!');
+            setNewStop({ stop_name: '', arrival_time: '', stop_order: '' });
+            fetchStops();
+            setTimeout(() => setStopMsg(''), 2000);
+        } catch { setStopMsg('❌ Failed to add stop.'); }
+        finally { setSavingStop(false); }
+    };
+
+    // ── DELETE STOP ──────────────────────────────────────
+    const handleDeleteStop = async (stopId) => {
+        if (!window.confirm('Remove this stop?')) return;
+        try {
+            await axios.delete(`http://localhost:3002/api/stops/${stopId}`);
+            fetchStops();
+        } catch { alert('Failed to remove stop.'); }
+    };
+
+    // ── INVITE HANDLERS ──────────────────────────────────
     const handleAcceptInvite = async (invite) => {
         setResponding(invite.id);
         try {
             await axios.put(`http://localhost:3002/api/driver-requests/${invite.id}/accept-invite`);
             setInvites([]);
             if (onBusAssigned) onBusAssigned();
-        } catch {
-            alert('Failed to accept. Please try again.');
-        } finally { setResponding(null); }
+        } catch { alert('Failed to accept. Please try again.'); }
+        finally { setResponding(null); }
     };
 
     const handleDeclineInvite = async (invite) => {
@@ -39,9 +91,8 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
         try {
             await axios.put(`http://localhost:3002/api/driver-requests/${invite.id}/decline-invite`);
             setInvites(prev => prev.filter(i => i.id !== invite.id));
-        } catch {
-            alert('Failed to decline. Please try again.');
-        } finally { setResponding(null); }
+        } catch { alert('Failed to decline. Please try again.'); }
+        finally { setResponding(null); }
     };
 
     // ── LOADING ──────────────────────────────────────────
@@ -63,7 +114,7 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
                 <div className="bus-hero-left">
                     <div className="bus-hero-icon">🚌</div>
                     <div>
-                        <h2>{assignedBus.name}</h2>
+                        <h2 className="bus-hero-name">{assignedBus.name}</h2>
                         <p className="bus-hero-number">{assignedBus.number}</p>
                         <span className={`status-badge ${assignedBus.status?.toLowerCase()}`}>{assignedBus.status}</span>
                     </div>
@@ -93,10 +144,49 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
                 </div>
             </div>
 
+            {/* Stops Section */}
             <div className="route-stops-section">
-                <h3>📍 Stops — Mark Current Location</h3>
+                <div className="stops-section-header">
+                    <h3>📍 Stops</h3>
+                    <button className="add-stop-inline-btn" onClick={() => setShowStopForm(!showStopForm)}>
+                        {showStopForm ? '✕ Cancel' : '➕ Add Stop'}
+                    </button>
+                </div>
+
+                {/* Add Stop Form */}
+                {showStopForm && (
+                    <div className="add-stop-form">
+                        {stopMsg && <div className={`form-message-box ${stopMsg.startsWith('✅') ? 'success' : 'error'}`}>{stopMsg}</div>}
+                        <form onSubmit={handleAddStop}>
+                            <div className="stop-form-row">
+                                <div className="form-group">
+                                    <label>Stop Name *</label>
+                                    <input value={newStop.stop_name}
+                                        onChange={e => setNewStop(p => ({...p, stop_name: e.target.value}))}
+                                        placeholder="e.g. Kozhikode Town" required />
+                                </div>
+                                <div className="form-group">
+                                    <label>Arrival Time</label>
+                                    <input type="time" value={newStop.arrival_time}
+                                        onChange={e => setNewStop(p => ({...p, arrival_time: e.target.value}))} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Order</label>
+                                    <input type="number" value={newStop.stop_order} min="1"
+                                        onChange={e => setNewStop(p => ({...p, stop_order: e.target.value}))}
+                                        placeholder={stops.length + 1} />
+                                </div>
+                            </div>
+                            <button type="submit" className="submit-request-btn" disabled={savingStop}>
+                                {savingStop ? '⏳ Saving...' : '💾 Save Stop'}
+                            </button>
+                        </form>
+                    </div>
+                )}
+
+                {/* Stops List */}
                 {stops.length === 0 ? (
-                    <p className="no-stops-msg">No stops added for this route yet.</p>
+                    <p className="no-stops-msg">No stops added yet. Use the button above to add stops.</p>
                 ) : (
                     <div className="driver-stops-list">
                         {stops.map((stop, idx) => (
@@ -114,13 +204,17 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
                                         {idx === currentStopIdx && <span className="here-badge">📍 HERE</span>}
                                         {currentStopIdx !== null && idx === currentStopIdx + 1 && <span className="next-badge">⏭️ NEXT</span>}
                                     </div>
-                                    <span className="stop-time">⏰ {stop.arrival_time}</span>
+                                    <span className="stop-time">⏰ {stop.arrival_time || '—'}</span>
                                 </div>
-                                <button
-                                    className={`mark-stop-btn ${idx === currentStopIdx ? 'marked' : ''}`}
-                                    onClick={() => setCurrentStopIdx(idx)}>
-                                    {idx === currentStopIdx ? '✅ Current' : 'Mark Here'}
-                                </button>
+                                <div className="stop-actions-row">
+                                    {/* <button
+                                        className={`mark-stop-btn ${idx === currentStopIdx ? 'marked' : ''}`}
+                                        onClick={() => handleMarkStop(idx)}
+                                        disabled={marking}>
+                                        {idx === currentStopIdx ? '✅ Current' : 'Mark Here'}
+                                    </button> */}
+                                    <button className="stop-delete-btn" onClick={() => handleDeleteStop(stop.id)} title="Remove stop">🗑️</button>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -138,7 +232,6 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
                 <h2>You have {invites.length} invitation{invites.length > 1 ? 's' : ''}!</h2>
                 <p>A bus owner wants to hire you. Review the details and accept or decline.</p>
             </div>
-
             <div className="invites-list">
                 {invites.map(invite => (
                     <div key={invite.id} className="invite-card">
@@ -150,50 +243,30 @@ const MyBus = ({ user, assignedBus, loadingBus, onBusAssigned }) => {
                             </div>
                             <span className="invite-badge">📨 Invite</span>
                         </div>
-
                         <div className="invite-bus-details">
                             <div className="invite-detail-row">
                                 <span className="idr-icon">🚌</span>
-                                <div>
-                                    <strong>{invite.bus_name}</strong>
-                                    <small>{invite.bus_number}</small>
-                                </div>
+                                <div><strong>{invite.bus_name}</strong><small>{invite.bus_number}</small></div>
                             </div>
                             {invite.start_place && (
                                 <div className="invite-detail-row">
                                     <span className="idr-icon">🗺️</span>
-                                    <div>
-                                        <strong>{invite.start_place} → {invite.end_place}</strong>
-                                        <small>{invite.start_time} – {invite.end_time}</small>
-                                    </div>
+                                    <div><strong>{invite.start_place} → {invite.end_place}</strong><small>{invite.start_time} – {invite.end_time}</small></div>
                                 </div>
                             )}
                             <div className="invite-detail-row">
                                 <span className="idr-icon">💺</span>
-                                <div>
-                                    <strong>{invite.capacity} seats</strong>
-                                    <small>{invite.distance ? `${invite.distance} km` : ''}</small>
-                                </div>
+                                <div><strong>{invite.capacity} seats</strong><small>{invite.distance ? `${invite.distance} km` : ''}</small></div>
                             </div>
                         </div>
-
-                        {invite.notes && (
-                            <div className="invite-notes">📝 {invite.notes}</div>
-                        )}
-
+                        {invite.notes && <div className="invite-notes">📝 {invite.notes}</div>}
                         <div className="invite-actions">
-                            <button
-                                className="accept-invite-btn"
-                                disabled={responding === invite.id}
+                            <button className="accept-invite-btn" disabled={responding === invite.id}
                                 onClick={() => handleAcceptInvite(invite)}>
                                 {responding === invite.id ? '⏳ Processing...' : '✅ Accept & Join'}
                             </button>
-                            <button
-                                className="decline-invite-btn"
-                                disabled={responding === invite.id}
-                                onClick={() => handleDeclineInvite(invite)}>
-                                ❌ Decline
-                            </button>
+                            <button className="decline-invite-btn" disabled={responding === invite.id}
+                                onClick={() => handleDeclineInvite(invite)}>❌ Decline</button>
                         </div>
                     </div>
                 ))}

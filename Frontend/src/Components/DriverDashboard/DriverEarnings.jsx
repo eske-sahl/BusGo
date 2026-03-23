@@ -13,6 +13,8 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
         notes: ''
     });
 
+    const todayStr = new Date().toISOString().split('T')[0];
+
     useEffect(() => { fetchEarnings(); }, [driverId]);
 
     const fetchEarnings = () => {
@@ -27,6 +29,20 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.date || !form.amount) { setMessage('❌ Date and Amount are required.'); return; }
+
+        // ✅ FIX 1: Block future date submissions
+        if (form.date > todayStr) {
+            setMessage('❌ Cannot record earnings for a future date.');
+            return;
+        }
+
+        // ✅ FIX 2: Prevent duplicate entries for the same date
+        const alreadyExists = earnings.some(e => e.date?.split('T')[0] === form.date);
+        if (alreadyExists) {
+            setMessage(`❌ Earnings for ${form.date} already recorded. You cannot add duplicate entries for the same date.`);
+            return;
+        }
+
         setSaving(true); setMessage('');
         try {
             await axios.post('http://localhost:3002/api/earnings/add', {
@@ -38,7 +54,7 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
                 notes: form.notes
             });
             setMessage('✅ Earnings recorded successfully!');
-            setForm({ date: new Date().toISOString().split('T')[0], amount: '', passengers: '', notes: '' });
+            setForm({ date: todayStr, amount: '', passengers: '', notes: '' });
             fetchEarnings();
         } catch {
             setMessage('❌ Failed to save. Please try again.');
@@ -47,7 +63,6 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
 
     const totalEarnings = earnings.reduce((s, e) => s + parseFloat(e.amount || 0), 0);
     const totalPassengers = earnings.reduce((s, e) => s + parseInt(e.passengers || 0), 0);
-    const todayStr = new Date().toISOString().split('T')[0];
     const todayEntry = earnings.find(e => e.date?.split('T')[0] === todayStr);
 
     return (
@@ -89,6 +104,18 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
             {/* Record Form */}
             <div className="earnings-form-card">
                 <h3>📝 Record Today's Earnings</h3>
+
+                {/* ✅ Show a notice if today is already recorded */}
+                {todayEntry && (
+                    <div className="form-message-box info" style={{
+                        background: '#e0f2fe', color: '#0369a1',
+                        padding: '0.75rem 1rem', borderRadius: '8px', marginBottom: '1rem'
+                    }}>
+                        ℹ️ Today's earnings (₹{parseFloat(todayEntry.amount).toLocaleString()}) are already recorded.
+                        You cannot submit a duplicate entry for today.
+                    </div>
+                )}
+
                 {message && (
                     <div className={`form-message-box ${message.startsWith('✅') ? 'success' : 'error'}`}>
                         {message}
@@ -98,11 +125,16 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
                     <div className="request-form-grid">
                         <div className="form-group">
                             <label>Date *</label>
-                            <input type="date" name="date" value={form.date} onChange={handleChange} required />
+                            {/* ✅ FIX: max=today prevents future date selection from the date picker */}
+                            <input type="date" name="date" value={form.date}
+                                onChange={handleChange}
+                                max={todayStr}
+                                required />
                         </div>
                         <div className="form-group">
                             <label>Amount Collected (₹) *</label>
-                            <input type="number" name="amount" value={form.amount} onChange={handleChange}
+                            <input type="number" name="amount" value={form.amount}
+                                onChange={handleChange}
                                 placeholder="e.g. 12500" min="0" step="0.01" required />
                         </div>
                         <div className="form-group">
@@ -121,7 +153,9 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
                                 placeholder="Any notes about today's trip..." />
                         </div>
                     </div>
-                    <button type="submit" className="submit-request-btn" disabled={saving}>
+                    <button type="submit" className="submit-request-btn"
+                        // ✅ Also disable button if today is already recorded
+                        disabled={saving || (form.date === todayStr && !!todayEntry)}>
                         {saving ? '💾 Saving...' : '💾 Record Earnings'}
                     </button>
                 </form>
@@ -133,7 +167,7 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
                 {loading ? (
                     <p className="loading-text">Loading...</p>
                 ) : earnings.length === 0 ? (
-                    <div className="no-bus-banner" style={{marginTop:'1rem'}}>
+                    <div className="no-bus-banner" style={{ marginTop: '1rem' }}>
                         <div className="no-bus-icon">💰</div>
                         <h2>No Records Yet</h2>
                         <p>Start recording daily earnings using the form above.</p>
@@ -152,8 +186,11 @@ const DriverEarnings = ({ driverId, assignedBus }) => {
                             </thead>
                             <tbody>
                                 {earnings.map((entry, idx) => (
-                                    <tr key={entry.id || idx} className={entry.date?.split('T')[0] === todayStr ? 'today-row' : ''}>
-                                        <td>{entry.date ? new Date(entry.date).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) : '—'}</td>
+                                    <tr key={entry.id || idx}
+                                        className={entry.date?.split('T')[0] === todayStr ? 'today-row' : ''}>
+                                        <td>{entry.date
+                                            ? new Date(entry.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+                                            : '—'}</td>
                                         <td><strong>₹{parseFloat(entry.amount).toLocaleString()}</strong></td>
                                         <td>{entry.passengers || '—'}</td>
                                         <td>{entry.bus_name || '—'}</td>

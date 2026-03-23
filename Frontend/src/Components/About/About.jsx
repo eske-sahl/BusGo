@@ -135,30 +135,6 @@ function About() {
                 </div>
             </section>
 
-            {/* Statistics Section */}
-            <section className="about-stats">
-                <div className="about-stats-header">
-                    <h2>Our Impact in Numbers</h2>
-                </div>
-                <div className="about-stats-grid">
-                    <div className="about-stat-card">
-                        <div className="about-stat-number">500+</div>
-                        <div className="about-stat-label">Buses Tracked Daily</div>
-                    </div>
-                    <div className="about-stat-card">
-                        <div className="about-stat-number">10,000+</div>
-                        <div className="about-stat-label">Active Users</div>
-                    </div>
-                    <div className="about-stat-card">
-                        <div className="about-stat-number">50+</div>
-                        <div className="about-stat-label">Routes Covered</div>
-                    </div>
-                    <div className="about-stat-card">
-                        <div className="about-stat-number">95%</div>
-                        <div className="about-stat-label">Accuracy Rate</div>
-                    </div>
-                </div>
-            </section>
 
             {/* Contact CTA Section */}
             <section className="contact-cta">
@@ -166,8 +142,7 @@ function About() {
                     <h2>Want to Know More?</h2>
                     <p>Have questions or want to partner with us? We'd love to hear from you.</p>
                     <div className="cta-buttons">
-                        <a href="#contact" className="btn-primary">Get In Touch</a>
-                        <a href="#signup" className="btn-secondary">Join Our Platform</a>
+                        <a href="/register" className="btn-secondary">Join Our Platform</a>
                     </div>
                 </div>
             </section>

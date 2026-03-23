@@ -151,8 +151,15 @@ router.get("/search", (req, res) => {
 
 router.get("/driver/:driverName", (req, res) => {
   const SQL = `
-    SELECT b.*, r.id as route_id, r.start_place, r.end_place,
-           r.start_time, r.end_time, r.distance, r.duration
+    SELECT b.*,
+           r.id         AS route_id,
+           r.route_name,          /* ✅ THIS WAS MISSING */
+           r.start_place,
+           r.end_place,
+           r.start_time,
+           r.end_time,
+           r.distance,
+           r.duration
     FROM buses b
     LEFT JOIN routes r ON b.id = r.bus_id
     WHERE b.driver = ?
@@ -162,6 +169,67 @@ router.get("/driver/:driverName", (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results[0] || null);
   });
+});
+
+
+/*
+  GET /api/bus/:busId/current-stop
+  Returns the current stop the driver has marked
+*/
+router.get("/:busId/current-stop", (req, res) => {
+    const sql = `
+        SELECT current_stop_id, current_stop_order, current_stop_name, updated_at
+        FROM buses
+        WHERE id = ?
+    `;
+    db.query(sql, [req.params.busId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!results.length) return res.status(404).json({ error: "Bus not found" });
+        res.json({
+            current_stop_id:    results[0].current_stop_id    || null,
+            current_stop_order: results[0].current_stop_order || null,
+            current_stop_name:  results[0].current_stop_name  || null,
+            updated_at:         results[0].updated_at         || null
+        });
+    });
+});
+
+/*
+  PUT /api/bus/:busId/current-stop
+  Driver updates which stop they are currently at
+*/
+router.put("/:busId/current-stop", (req, res) => {
+    const { current_stop_id, current_stop_order, current_stop_name } = req.body;
+    const sql = `
+        UPDATE buses
+        SET current_stop_id    = ?,
+            current_stop_order = ?,
+            current_stop_name  = ?,
+            updated_at         = NOW()
+        WHERE id = ?
+    `;
+    db.query(sql, [current_stop_id, current_stop_order, current_stop_name, req.params.busId], (err) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true, current_stop_name });
+    });
+});
+
+/*
+  GET /api/bus/:busId/route-stops
+  Returns all stops for a bus's route (used by tracker)
+*/
+router.get("/:busId/route-stops", (req, res) => {
+    const sql = `
+        SELECT s.id, s.stop_name, s.stop_order, s.arrival_time
+        FROM stops s
+        JOIN routes r ON s.route_id = r.id
+        WHERE r.bus_id = ?
+        ORDER BY s.stop_order ASC
+    `;
+    db.query(sql, [req.params.busId], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
 });
 
 // GET single bus with full details - NEW

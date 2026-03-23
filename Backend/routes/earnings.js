@@ -80,4 +80,42 @@ router.get("/owner/:ownerId", (req, res) => {
     });
 });
 
+// ===================================================
+// ADD THIS ROUTE to your earnings router (backend)
+// e.g., in routes/earnings.js or wherever your
+// /api/earnings routes are defined
+// ===================================================
+
+// GET /api/earnings/owner/:ownerId/monthly?start=YYYY-MM-DD&end=YYYY-MM-DD
+router.get('/owner/:ownerId/monthly', async (req, res) => {
+    const { ownerId } = req.params;
+    const { start, end } = req.query;
+
+    try {
+        // Adjust table/column names to match your actual DB schema
+        const [rows] = await db.query(
+            `SELECT 
+                SUM(e.amount) AS total,
+                COUNT(*) AS records
+             FROM earnings e
+             JOIN driver_requests dr ON e.driver_id = dr.driver_id
+             WHERE dr.owner_id = ?
+               AND e.date >= ?
+               AND e.date <= ?`,
+            [ownerId, start, end]
+        );
+        res.json({ total: rows[0]?.total || 0, records: rows[0]?.records || 0 });
+    } catch (err) {
+        console.error("Monthly earnings error:", err);
+        res.status(500).json({ error: "Failed to fetch monthly earnings" });
+    }
+});
+
+// ===================================================
+// ALTERNATIVE: If you don't want to add a new endpoint,
+// you can also fetch all earnings for the month from
+// the existing daily endpoint by looping — but the 
+// dedicated endpoint above is far more efficient.
+// ===================================================
+
 module.exports = router;

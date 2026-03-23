@@ -5,8 +5,8 @@
 
 /* ─── BUS HERO CARD ────────────────────────────────── */
 .driver-bus-hero {
-    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
     color: var(--text-white);
+    background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);
     border-radius: 18px;
     padding: 2rem;
     display: flex;
@@ -1347,4 +1347,258 @@
     .request-actions { flex-direction: column; }
     .assign-bus-select { width: 100%; }
     .accept-btn, .reject-btn { width: 100%; text-align: center; }
+}
+
+/* ─── STOP SECTION HEADER ────────────────────────────── */
+.stops-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.stops-section-header h3 { color: var(--secondary-brown); margin: 0; }
+
+.add-stop-inline-btn {
+    background: var(--secondary-brown);
+    color: var(--text-white);
+    border: none;
+    padding: 0.5rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.add-stop-inline-btn:hover { background: var(--secondary-brown-dark); }
+
+/* ─── ADD STOP FORM ──────────────────────────────────── */
+.add-stop-form {
+    background: var(--accent-cream);
+    border: 1px solid var(--primary-beige);
+    border-radius: 14px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.stop-form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+@media (max-width: 600px) {
+    .stop-form-row { grid-template-columns: 1fr; }
+}
+
+/* ─── STOP ACTIONS ROW ───────────────────────────────── */
+.stop-actions-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.4rem;
+}
+
+.stop-delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 6px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.stop-delete-btn:hover { opacity: 1; background: #fee2e2; }
+
+/* ─── BUS TRACKER CARD ───────────────────────────────── */
+.bus-tracker-card {
+    background: var(--bg-primary);
+    border: 2px solid var(--primary-beige);
+    border-radius: 16px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 3px 10px var(--shadow-light);
+}
+
+.tracker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--primary-beige);
+}
+
+.tracker-bus-info {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.tracker-bus-icon { font-size: 1.8rem; }
+.tracker-bus-info strong { display: block; color: var(--secondary-brown); }
+.tracker-bus-info small  { color: var(--text-light); font-size: 0.8rem; }
+
+.tracker-live-dot {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.live-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.live-dot.active {
+    background: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34,197,94,0.25);
+    animation: pulse-green 1.5s infinite;
+}
+
+.live-dot.inactive { background: #94a3b8; }
+
+@keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.25); }
+    50%       { box-shadow: 0 0 0 6px rgba(34,197,94,0.1); }
+}
+
+.live-label { color: var(--text-light); }
+
+.tracker-status {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.tracker-current, .tracker-next {
+    flex: 1;
+    min-width: 140px;
+    background: var(--accent-cream);
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.tcs-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+.tcs-name  { font-size: 1.05rem; font-weight: 700; color: var(--secondary-brown); }
+.tcs-name.next { color: #d97706; }
+
+.tracker-no-update {
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-light);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* ─── MINI TIMELINE ──────────────────────────────────── */
+.tracker-timeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 0.8rem 0;
+    padding: 0.6rem 0.8rem;
+    background: var(--accent-cream);
+    border-radius: 10px;
+    align-items: center;
+}
+
+.tl-stop {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    padding: 0.2rem 0.3rem;
+}
+
+.tl-stop:not(:last-child)::after {
+    content: '›';
+    color: var(--primary-beige);
+    margin-left: 0.3rem;
+    font-size: 1rem;
+}
+
+.tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-beige);
+    flex-shrink: 0;
+}
+
+.tl-stop.tl-passed  .tl-dot { background: #94a3b8; }
+.tl-stop.tl-passed  .tl-name { text-decoration: line-through; opacity: 0.5; }
+.tl-stop.tl-current .tl-dot { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.3); }
+.tl-stop.tl-current .tl-name { font-weight: 700; color: #15803d; }
+.tl-stop.tl-next    .tl-dot { background: #f59e0b; }
+.tl-stop.tl-next    .tl-name { font-weight: 600; color: #b45309; }
+
+.tl-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.1rem 0.4rem;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.tl-badge.here { background: #dcfce7; color: #15803d; }
+.tl-badge.next { background: #fef3c7; color: #b45309; }
+
+.tracker-updated {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: right;
+    margin: 0.4rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+}
+
+.refresh-btn {
+    background: var(--primary-beige);
+    border: none;
+    border-radius: 6px;
+    padding: 0.1rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.refresh-btn:hover { background: var(--accent-rust); color: white; }
+
+.tracker-loading {
+    padding: 1rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ─── REGISTER LICENSE FIELD ─────────────────────────── */
+.license-field { 
+    background: linear-gradient(135deg, #fef9f0, #fef3c7);
+    border: 1px solid #fde68a;
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.field-hint {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #92400e;
 }

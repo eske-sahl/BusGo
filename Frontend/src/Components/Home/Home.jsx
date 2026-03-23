@@ -21,8 +21,8 @@ export const Home = () => {
                         <h1>Track Your Bus in Real-Time</h1>
                         <p>Never miss your bus again! Get live location updates, arrival times, and complete schedules for private buses across Kerala.</p>
                         <div className="hero-buttons">
-                            <a href="#signup" className="btn-primary">Get Started</a>
-                            <a href="#features" className="btn-secondary">Learn More</a>
+                            <a href="/register" className="btn-primary">Get Started</a>
+                            <a href="/About" className="btn-secondary">Learn More</a>
                         </div>
                     </div>
                 </section>
@@ -121,7 +121,7 @@ export const Home = () => {
                     <h2>Ready to Never Miss Your Bus?</h2>
                     <p>Join thousands of happy travelers who are already using BusTrack Kerala to make their daily commute easier.</p>
                     <div className="cta-buttons">
-                        <a href="#signup" className="btn-cta-primary">Create Free Account →</a>
+                        <a href="/register" className="btn-cta-primary">Create Free Account →</a>
                     </div>
                 </section>
 

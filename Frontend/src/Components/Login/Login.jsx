@@ -93,11 +93,7 @@ export const Login = () => {
                         {errorMessage}
                     </div>
                 )}
-
-                <div className="forgot-password">
-                    Lost Password? <span>Click Here!</span>
-                </div>
-
+                
                 <div className="submit-container">
                     <button
                         type="submit"
