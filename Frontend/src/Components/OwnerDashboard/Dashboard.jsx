@@ -88,6 +88,11 @@ export const OwnerDashboard = () => {
     const ownerGender = user.gender;
     const ownerUsername = user.username;
 
+    const handleClickLogo = () => {
+        localStorage.removeItem("user");
+        navigateto('/Home');
+    };
+    
     const handleLogout = () => {
         navigateto('/Login');
     };
@@ -144,9 +149,10 @@ export const OwnerDashboard = () => {
             {/* HEADER */}
             <header className="owner-header">
                 <div className="header-left">
-                    <img src={buslogo} alt="BusGo Logo" className="header-logo" />
+                    <div className="logo">
+                        <img src={buslogo} onClick={handleClickLogo} alt="BusGo Logo" className="header-logo" />
+                    </div>
                 </div>
-
                 <div className="mobile-menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     <span></span><span></span><span></span>
                 </div>

@@ -4,6 +4,14 @@
    ========================================== */
 
 /* ─── BUS HERO CARD ────────────────────────────────── */
+
+.logo {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 .driver-bus-hero {
     color: var(--text-white);
     background: linear-gradient(135deg, var(--secondary-brown) 0%, var(--secondary-brown-dark) 100%);

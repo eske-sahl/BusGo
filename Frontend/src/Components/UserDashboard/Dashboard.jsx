@@ -26,6 +26,11 @@ export const UserDashboard = () => {
         return null;
     }
 
+    const handleClickLogo = () => {
+        localStorage.removeItem("user");
+        navigateto('/Home');
+    };
+
     const handleLogout = () => {
         navigateto('/Login');
     };
@@ -59,7 +64,9 @@ export const UserDashboard = () => {
         <div className="dashboard-wrapper">
             <header className="dashboard-header">
                 <div className="header-left">
-                    <img src={buslogo} alt="BusGo Logo" className="header-logo" />
+                    <div className="logo">
+                        <img src={buslogo} onClick={handleClickLogo} alt="BusGo Logo" className="header-logo" />
+                    </div>
                 </div>
 
                 <div className="mobile-menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>

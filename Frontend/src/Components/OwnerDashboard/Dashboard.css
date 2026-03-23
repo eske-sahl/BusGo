@@ -32,6 +32,13 @@
 /* ==========================================
    HEADER
    ========================================== */
+.logo {
+    height: 55px;
+    width: auto;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
 .owner-header {
     background-color: var(--bg-primary);
     box-shadow: 0 2px 15px var(--shadow-light);
