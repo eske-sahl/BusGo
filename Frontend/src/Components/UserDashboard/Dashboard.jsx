@@ -243,10 +243,6 @@ const BusesList = ({ buses, loading, setActiveSection }) => {
                                     onClick={() => setActiveSection('bus-route-search')}>
                                     View Route
                                 </button>
-                                <button className="track-btn"
-                                    onClick={() => setActiveSection('bus-search')}>
-                                    Track Bus
-                                </button>
                             </div>
                         </div>
                     ))}
@@ -279,14 +275,21 @@ const Profile = ({ user }) => {
             alert("Failed to delete account");
         }
     };
-
     return (
         <div className="section-container">
             <h1>User Profile</h1>
 
             <div className="profile-container">
                 <div className="profile-avatar-large">
-                    <span>👤</span>
+                    {user.photo ? (
+                        <img 
+                            src={user.photo} 
+                            alt="Profile" 
+                            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                        />
+                    ) : (
+                        <span>👤</span>
+                    )}
                 </div>
 
                 <div className="profile-details">
@@ -295,7 +298,7 @@ const Profile = ({ user }) => {
                         ['Phone', user.phone],
                         ['Email', user.email],
                         ['Place', user.place],
-                        ['Date of Birth', user.dob],
+                        ['Date of Birth', new Date(user.dob).toLocaleDateString()],
                         ['Designation', user.designation],
                         ['Username', user.username],
                         ['Gender', user.gender],

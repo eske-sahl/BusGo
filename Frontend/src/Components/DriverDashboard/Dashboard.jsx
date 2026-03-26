@@ -214,8 +214,16 @@ const DriverProfile = ({ user }) => {
             <h1>👤 My Profile</h1>
 
             <div className="profile-card">
-                <div className="profile-avatar">
-                    <span>🧑‍✈️</span>
+                <div className="profile-avatar-large">
+                    {user.photo ? (
+                        <img 
+                            src={user.photo} 
+                            alt="Profile" 
+                            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                        />
+                    ) : (
+                        <span>👤</span>
+                    )}
                 </div>
 
                 <div className="profile-info">
@@ -224,7 +232,7 @@ const DriverProfile = ({ user }) => {
                         ['Phone', user.phone],
                         ['Email', user.email],
                         ['Place', user.place],
-                        ['Date of Birth', user.dob],
+                        ['Date of Birth', new Date(user.dob).toLocaleDateString()],
                         ['Username', user.username],
                         ['Gender', user.gender],
                         ['License Number', user.license_number],

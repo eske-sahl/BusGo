@@ -303,13 +303,23 @@ const Profile = ({
         <div className="section-container">
             <h1>Owner Profile</h1>
             <div className="profile-container">
-                <div className="profile-avatar-large"><span>👤</span></div>
+                <div className="profile-avatar-large">
+                    {user.photo ? (
+                        <img 
+                            src={user.photo} 
+                            alt="Profile" 
+                            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+                        />
+                    ) : (
+                        <span>👤</span>
+                    )}
+                </div>
                 <div className="profile-details">
                     <div className="detail-row"><label>Full Name:</label><span>{ownerName}</span></div>
                     <div className="detail-row"><label>Phone:</label><span>{ownerPhone}</span></div>
                     <div className="detail-row"><label>Email:</label><span>{ownerEmail}</span></div>
                     <div className="detail-row"><label>Place:</label><span>{ownerPlace}</span></div>
-                    <div className="detail-row"><label>Date of Birth:</label><span>{ownerDOB}</span></div>
+                    <div className="detail-row"><label>Date of Birth:</label><span>{new Date(ownerDOB).toLocaleDateString()}</span></div>
                     <div className="detail-row"><label>Designation:</label><span>{ownerDesignation}</span></div>
                     <div className="detail-row"><label>Username:</label><span>{ownerUsername}</span></div>
                     <div className="detail-row"><label>Gender:</label><span>{ownerGender}</span></div>
